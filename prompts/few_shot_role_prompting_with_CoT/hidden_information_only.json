@@ -1,0 +1,87 @@
+{
+    "taxonomy": [
+        {
+        "name": "Hidden Information",
+        "definition": "Subverts the user’s expectation that relevant information will be made accessible and visible, instead disguising relevant information or framing it as irrelevant.",
+        "examples": [
+            {
+                "example_definition": "When instructions for exercising privacy rights are provided, the actionable elements (e.g., webform links) are technically present but visually disguised as ordinary text. The links lack standard visual affordances, such as distinct color contrast, underlining, or bolding, making them indistinguishable from surrounding content during a normal scan. Because the actionable element does not appear interactive or clickable, users may overlook it and fail to discover where to submit a privacy rights request.",
+                "exclusions": "Standard inline hyperlinks that follow common web conventions (e.g., blue and underlined text) should NOT be classified as Hidden Information",               
+                "evidence_with_reasoning": [
+                    {
+                        "evidence_type": "policy_text",
+                        "raw_snippet": "You may exercise your privacy rights by visiting our privacy request page listed below. Privacy Rights Request",
+                        "observed_ui_text": "The text 'Privacy Rights Request' functions as a hyperlink, but appears as plain text with the same color, font, and styling as surrounding informational content, without visual indicators such as underlining, contrast, or button styling.",
+                        "action_taken": "Visually scanned the page for a clickable link or button to submit a privacy rights request.",
+                        "dynamic_outcome": "No clearly identifiable interactive element was apparent, as the privacy rights link blended into surrounding text and did not stand out as actionable.",
+                        "short_rationale": "Although the privacy rights link is present, it is visually disguised as non-interactive text. This framing conceals a relevant pathway for exercising rights, fitting the Hidden Information pattern."
+                    },
+                    {
+                        "evidence_type": "policy_text",
+                        "raw_snippet": "To submit a privacy rights request, please email [email] or complete the webform linked [webform].",
+                        "observed_ui_text": "The email address and webform link lack standard visual affordances. They are colored in a dark shade that nearly matches the black body text, and not underlined and not bolded. As a result, they are visually similar to surrounding body text.",
+                        "action_taken": "Scanned the page to locate clear instructions or links for submitting a privacy rights request.",
+                        "dynamic_outcome": "The actionable email and webform link did not immediately stand out from surrounding text and were easy to miss during a quick scan.",
+                        "short_rationale": "The actionable elements are effectively camouflaged by the absence of standard hyperlink cues (color contrast or underlining), reducing discoverability and making it difficult for users to recognize where to submit a privacy rights request."
+                    }
+                ]
+            },
+            {
+                "example_definition": "A company references instructions for exercising privacy rights using cross-referential phrases such as “see”, “as provided in”, or “refer to”, but presents the reference only as non-clickable text pointing to a different section or page. Although the information is nominally disclosed, the lack of a direct navigational affordance forces users to manually search lengthy documents to locate the actionable resource. This design undermines the user’s expectation that rights-related mechanisms will be immediately accessible and operational, effectively reducing the visibility of relevant information despite formal disclosure.",
+                "evidence_with_reasoning": [
+                    {
+                        "evidence_type": "policy_text",
+                        "raw_snippet": "Exercising Your Rights: Residents of U.S. states that provide these rights can exercise their rights as provided in our “Your Privacy Choices” form or by calling us at (800) 946-6710.",
+                        "observed_ui_text": "The policy references a specific 'Your Privacy Choices' form as the mechanism for submitting and appealing privacy requests, but presents the reference only as plain text without a clickable link or button.",
+                        "action_taken": "Reviewed the section describing how to exercise privacy rights and checked whether the referenced “Your Privacy Choices” form was directly accessible or clickable from this text.",
+                        "dynamic_outcome": "The referenced form is not directly accessible from the policy text, requiring the user to manually search or navigate elsewhere on the site to locate it.",
+                        "short_rationale": "The policy tells users that a specific “Your Privacy Choices” form is required to exercise their rights, but it does not provide a clickable link or button to access it. Users therefore cannot immediately act on the instruction and must search elsewhere on the site to find the form. This missing navigation affordance makes the rights exercise pathway less visible and harder to use."
+                    },
+                    {
+                        "evidence_type": "policy_text",
+                        "raw_snippet": "Instructions to submit opt-out requests, delete requests, and/or right to know requests through either our Website or our Toll-Free number may be referenced in Sections XVIII-XX of this Privacy Policy. You can find information on how to exercise your rights in sections XXIV-XXXI below.",
+                        "observed_ui_text": "The policy references specific sections containing privacy rights instructions using Roman numerals, but does not provide clickable links or anchors to those sections.",
+                        "action_taken": "Reviewed the policy text and attempted to navigate to the referenced sections from the instruction text.",
+                        "dynamic_outcome": "Users must manually scroll or search through the document to locate the referenced sections, as no direct navigation is provided.",
+                        "short_rationale": "The policy points users to specific sections of the document where privacy rights instructions are located, but those section references are not clickable or anchored. Users must manually scroll or search through the policy to locate the relevant content. This design adds friction and reduces the visibility of important rights-related information."
+                    }
+                ]
+            },
+            {
+                "example_definition": "A user scans a webpage to find information about how to exercise their privacy rights, but the relevant instructions are not visible in the main content area. Instead, they are hidden behind a 'Read More' link, within a collapsible section, or inside a tooltip that appears only on hover. Because the information is not shown by default, users must perform additional interactions to reveal it, making the right exercise pathway easy to overlook. This does not apply when all sections of a page are uniformly presented in a collapsible format, as such layouts function as a neutral design choice.",
+                "evidence_with_reasoning": [
+                    {
+                        "evidence_type": "ui_behavior",
+                        "raw_snippet": "Are there other ways to exercise your User Data rights?\nIn addition to following the above steps, you can exercise certain of your User Data privacy rights by calling us at (855) 921-3711 or emailing us at privacy@truthfinder.com",
+                        "observed_ui_text": "Alternative submission methods, including phone and email, are not visible in the main content area and appear only after expanding a collapsed FAQ item labeled 'Are there other ways to exercise your User Data rights?'.",
+                        "action_taken": "Clicked the 'View' toggle for the FAQ item to expand its content.",
+                        "dynamic_outcome": "Additional privacy rights submission methods became visible only after the user performed an explicit expansion action.",
+                        "short_rationale": "Key alternate access submission methods are hidden behind a collapsed interface element and are not visible by default. This design reduces discoverability and makes the rights exercise pathway easy to overlook."
+                    }
+                ]
+            },
+            {
+                "example_definition": "A company presents a section explicitly dedicated to explaining a user’s legal privacy rights (e.g., sections titled “California Privacy Rights” or “How to Exercise Your Rights”), which reasonably signals a complete and comprehensive explanation. However, the section omits important and applicable information, such as the full set of consumer rights or all available methods for exercising those rights. Although the omitted information may be disclosed elsewhere on the site, the section provides no clear cross-reference or linkage. This omission conceals relevant information at the point where users expect complete explanation, leading users to believe that only the listed rights or methods are available.",
+                "evidence_with_reasoning":[
+                    {   
+                        "evidence_type": "policy_text",
+                        "raw_snippet": "How to Exercise Your Rights: You may submit your request by calling us at [phone number] or emailing us at [email address].",
+                        "observed_ui_text": "The section titled 'How to Exercise Your Rights' lists only phone and email as submission methods and does not mention any online request form.",
+                        "action_taken": "Reviewed other parts of the page, including the header and footer, to determine whether additional submission methods were available.",
+                        "dynamic_outcome": "An online webform for submitting privacy requests exists elsewhere on the site, but it is not referenced or linked from the 'How to Exercise Your Rights' section.",
+                        "short_rationale": "Because the section title signals a complete explanation of how to exercise rights, omitting the webform conceals an applicable submission method at the point of relevance, leading users to believe that phone or email are the only available options."
+                    },
+                    {
+                        "evidence_type": "policy_text",
+                        "raw_snippet": "California Privacy Rights: California residents may request information about the sharing of their personal information for direct marketing purposes. To submit a request, please contact us by mail or email at the address listed under 'Contact Us' below.",
+                        "observed_ui_text": "The 'California Privacy Rights' section describes only a single, narrow right and directs users to the 'Contact Us' section for exercising rights.",
+                        "action_taken": "Navigated to the 'Contact Us' section and reviewed other sections of the privacy policy to identify how users can exercise broader CCPA rights.",
+                        "dynamic_outcome": "The 'Contact Us' section provides only a mailing address and email, while a webform supporting general CCPA rights requests exists elsewhere on the site without being referenced in this section.",
+                        "short_rationale": "By presenting a section dedicated to California privacy rights but omitting broader rights and an available webform, the design conceals relevant information at the point where users expect a complete explanation, causing users to believe that only the listed right and high-friction methods apply."
+                    }
+                ]
+            }
+        ]
+    }
+    ]
+}

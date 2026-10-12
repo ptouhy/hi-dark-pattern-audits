@@ -6,3 +6,7 @@ OPENAI_API_KEY
 GOOGLE_API_KEY
 agent_output
 .env
+__pycache__/
+*.pyc
+venv/
+~$*

@@ -24,14 +24,24 @@ class SafeDict(dict):
 
 # --------- CONFIG ---------
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-df = pd.read_csv("broker_dataset/100_annotated_brokers.csv")
+
+# Chen vetted HI eval set (11 URLs, scenarios 2 & 4)
+# Legacy: test_4_miss_case_brokers.csv | Full set: broker_dataset/100_annotated_brokers.csv
+BROKER_CSV = "broker_dataset/hi_vetted_11_brokers.csv"
+df = pd.read_csv(BROKER_CSV)
 URLS = df["url"].dropna().tolist()
+
 ROOT_OUT_DIR = "agent_output"
-MODEL = "gpt-5" 
+MODEL = "gpt-5"  # Chen parity. Flip USE_EXTEND_SYSTEM_MESSAGE for ablation.
 TEMPERATURE = 0
-                     
-DP_PROMPT_USER_PATH = "prompts/few_shot_role_prompting_with_CoT/prompt_regulator_role.txt"
-#DP_TAXONOMY_JSON   = "prompts/few_shot_role_prompting_with_CoT/interface_interference.json"
+
+# Run plan: (1) False = baseline HI-only L4, (2) True = L4 + extend_system_message
+USE_EXTEND_SYSTEM_MESSAGE = False  # Wave 1 baseline on hi_vetted_11; flip True for extend wave
+EXTEND_SYSTEM_MESSAGE_PATH = (
+    "prompts/few_shot_role_prompting_with_CoT/extend_system_message.txt"
+)
+
+DP_PROMPT_USER_PATH = "prompts/few_shot_role_prompting_with_CoT/prompt_regulator_role_hi_only.txt"
 # --------------------------
 
 
@@ -118,26 +128,38 @@ async def process_one(url: str, browser_session: BrowserSession, type: str, mode
 
     controller = Controller(output_model=DarkPatternRunResult)
 
-    agent = Agent(
-        controller=controller,                               
-        task=user_prompt,                                            
-        llm=ChatOpenAI(model=MODEL, temperature=TEMPERATURE, api_key=OPENAI_API_KEY, max_completion_tokens=20000),
-        use_vision=True,
-        llm_timeout=240,      
-        step_timeout=240,
-        max_failures=5,
-        final_response_after_failures=True,
-        browser_session=browser_session,
-        output_model_schema=DarkPatternRunResult,
-        save_conversation_path=os.path.join(run_dir, "conversation_history.json"),
-        save_conversation_path_encoding="utf-8",
-        #extend_system_message = system_prompt,
-        # try to solve Invalid JSON error
-        minimum_wait_page_load_time=60.0,
-        wait_for_network_idle_page_load_time=60.0,
-        wait_between_actions=5.0,
-        calculate_cost=True
-    )
+    extend_system_message = None
+    if USE_EXTEND_SYSTEM_MESSAGE:
+        extend_system_message = load_prompt(EXTEND_SYSTEM_MESSAGE_PATH)
+        print("Using extend_system_message (ablation run)")
+
+    agent_kwargs = {
+        "controller": controller,
+        "task": user_prompt,
+        "llm": ChatOpenAI(
+            model=MODEL,
+            temperature=TEMPERATURE,
+            api_key=OPENAI_API_KEY,
+            max_completion_tokens=20000,
+        ),
+        "use_vision": True,
+        "llm_timeout": 240,
+        "step_timeout": 240,
+        "max_failures": 5,
+        "final_response_after_failures": True,
+        "browser_session": browser_session,
+        "output_model_schema": DarkPatternRunResult,
+        "save_conversation_path": os.path.join(run_dir, "conversation_history.json"),
+        "save_conversation_path_encoding": "utf-8",
+        "minimum_wait_page_load_time": 60.0,
+        "wait_for_network_idle_page_load_time": 60.0,
+        "wait_between_actions": 5.0,
+        "calculate_cost": True,
+    }
+    if extend_system_message:
+        agent_kwargs["extend_system_message"] = extend_system_message
+
+    agent = Agent(**agent_kwargs)
     # Navigate to target first 
     try:
        
@@ -363,17 +385,24 @@ async def main(type: str, model: str):
 
 if __name__ == "__main__":
 
+    # HI-only eval (Chen vetted 11 brokers). Legacy full II: interface_interference.json
     DP_TAXONOMY_JSONS = [
-        "prompts/few_shot_role_prompting_with_CoT/sneaking.json",
-        "prompts/few_shot_role_prompting_with_CoT/interface_interference.json",
-        "prompts/few_shot_role_prompting_with_CoT/obstruction.json",
+        "prompts/few_shot_role_prompting_with_CoT/hidden_information_only.json",
     ]
+    # DP_TAXONOMY_JSONS = [
+    #     "prompts/few_shot_role_prompting_with_CoT/sneaking.json",
+    #     "prompts/few_shot_role_prompting_with_CoT/interface_interference.json",
+    #     "prompts/few_shot_role_prompting_with_CoT/obstruction.json",
+    # ]
     taxonomy_to_type = {
         "prompts/few_shot_role_prompting_with_CoT/sneaking.json":
             "sneaking_few_shot_role_prompting_with_CoT",
 
         "prompts/few_shot_role_prompting_with_CoT/interface_interference.json":
             "interface_interference_few_shot_role_prompting_with_CoT",
+
+        "prompts/few_shot_role_prompting_with_CoT/hidden_information_only.json":
+            "hidden_information_hi_only_few_shot_role_prompting_with_CoT",
 
         "prompts/few_shot_role_prompting_with_CoT/obstruction.json":
             "obstruction_few_shot_role_prompting_with_CoT",
@@ -388,6 +417,10 @@ if __name__ == "__main__":
         print(f"\n{'='*80}")
         print(f"Running taxonomy: {taxonomy_path}")
         print(f"Output type: {type}")
+        print(f"MODEL: {MODEL}")
+        print(f"USE_EXTEND_SYSTEM_MESSAGE: {USE_EXTEND_SYSTEM_MESSAGE}")
+        print(f"BROKER_CSV: {BROKER_CSV} -> {URLS}")
+        print(f"Output will land in: {ROOT_OUT_DIR}/<domain>/{type}/{MODEL}/<timestamp>/")
         print(f"{'='*80}\n")
 
         asyncio.run(main(type, MODEL))

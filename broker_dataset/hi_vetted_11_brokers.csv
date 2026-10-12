@@ -1,0 +1,12 @@
+url,is_url_valid_status,data_broker,hi_scenario,hi_description,ground_truth_status
+https://roq.ad/privacy-policy-roqad,True,roq.ad,2,"CA residents: 'additional disclosures at the end of this Notice' — 'Notice' referenced but not linked.",found
+https://www.sabioctv.com/privacypolicy,True,sabioctv.com,2,"'How to Exercise Your Rights section below' referenced but not linked.",found
+https://seamless.ai/policies/privacy-policy,True,seamless.ai,"2,4","Scenario 4: Section 12 omits methods listed in section 9. Scenario 2: 'You May Contact Us' referenced in section 9 without hyperlink.",found
+https://www.stirista.com/privacy-policy/,True,stirista.com,2,"'CCPA PRIVACY NOTICE' referenced but not linked.",found
+https://www.thebridgecorp.com/privacy-policy/,True,thebridgecorp.com,4,"Policy does not reference 'California Residents' tab where requests can also be submitted.",found
+https://thedatatrust.com/privacy-policy/,True,thedatatrust.com,2,"'How to Exercise Your California Law Rights' referenced but not hyperlinked.",found
+https://www.theswarm.com/privacy,True,theswarm.com,4,"Access instructions under 'Do Not Sell or Share' section, not under 'Exercising Your CCPA Data Protection Rights'.",found
+https://www.thinkdatagroup.com/privacy-policy/,True,thinkdatagroup.com,4,"Section 'k. Exercising Your Rights' does not reference 'Information On Me' access webform.",found
+https://trestleiq.com/privacy-policy/,True,trestleiq.com,4,"Physical mail method only in 'How to Contact Us'; not cross-referenced in 'Your Rights and Choices'.",found
+https://www.venntel.com/privacy-policy,True,venntel.com,4,"'How to Exercise your Rights' lists phone/email only; webform in header/footer not mentioned.",found
+https://www.windfall.com/privacy,True,windfall.com,2,"'Your Privacy Choices' in footer referenced in text but not hyperlinked.",found

@@ -22,7 +22,8 @@ BlockCategory = Literal[
 ]
 
 RequirementStatus = Literal["required", "optional", "unsure"]
-Darkpatternstatus =  Literal["found", "not found"]
+Darkpatternstatus = Literal["found", "not found"]
+HiScenario = Literal[1, 2, 3, 4]
 
 class SubmissionMethod(BaseModel):
     type: SubmissionType
@@ -53,10 +54,19 @@ class EvidenceItem(BaseModel):
 
 class DarkPatternMatch(BaseModel):
     pattern_name: str                    # the matched issue/DP name
-    status: Darkpatternstatus # e.g., "found", "not found"
+    status: Darkpatternstatus            # "found" or "not found"
     evidence: List[EvidenceItem] = Field(default_factory=list)
     short_rationale: str
     matching_confidence: confloat(ge=0.0, le=1.0)  # 0–1
+    hi_scenarios: Optional[List[HiScenario]] = Field(
+        None,
+        description=(
+            "Hidden Information only. When status='found', list which scenario(s) "
+            "apply: 1=disguised link, 2=referenced not linked, 3=collapsed/hidden "
+            "content, 4=rights section omits methods/info elsewhere on site. "
+            "Set to null when status='not found'."
+        ),
+    )
 
 class VerificationIssue(BaseModel):
     blocked: bool

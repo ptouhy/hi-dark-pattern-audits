@@ -35,7 +35,7 @@ Consider ALL of the following aspects when evaluating clarity, completeness, and
 (1) Static "policy text":
    - Evaluate clarity, completeness, and accuracy of how access rights are described.
    - What access rights are included/excluded. Identify if any access rights are omitted, narrowed, misleading, fragmented, or described in a vague or ambiguous way.
-   - Identify if instructions for exercising Right of Access are omitted, narrowed, incomplete, vague, ambiguous, fragmented, inconsistent, or contradictory.
+   - Identify if instructions for exercisƒsteing Right of Access are omitted, narrowed, incomplete, vague, ambiguous, fragmented, inconsistent, or contradictory.
 (2) Static/Dynamic "UI behaviors":
    - Form fields
    - Button labels
